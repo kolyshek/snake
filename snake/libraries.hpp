@@ -15,4 +15,7 @@
 #include<SFML/System.hpp>
 #include<SFML/Window.hpp>
 
+#include "IBase.hpp"
+#include "logging.hpp"
+
 #endif // !LIBRARIES_H

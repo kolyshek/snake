@@ -1,70 +1,101 @@
-#include "PlayingField.h"
+#include "PlayingField.hpp"
 
-PlayingField::PlayingField(sf::RenderWindow& window)
+void kp::PlayingField::initGridSize()
+{
+	m_gridSize = sf::Vector2u(24, 24);
+}
+
+void kp::PlayingField::initTile()
+{
+	m_tile = new sf::RectangleShape;
+
+	if (m_tile != nullptr)
+	{
+		m_tile->setSize(sf::Vector2f(static_cast<float>(m_window->getSize().x / m_gridSize.x),
+			static_cast<float>(m_window->getSize().x / m_gridSize.y)));
+		m_tile->setFillColor(sf::Color(32, 32, 32, 255));
+		m_tile->setOutlineThickness(2);
+		m_tile->setOutlineColor(sf::Color(46, 46, 46, 255));
+		m_tile->setOrigin(sf::Vector2f(m_tile->getSize().x / 2.0f, m_tile->getSize().y / 2.0f));
+	}
+}
+
+void kp::PlayingField::initTilePositions()
+{
+	sf::Vector2f startPosition(static_cast<float>(m_window->getSize().x / m_gridSize.x),
+		static_cast<float>(m_window->getSize().x / m_gridSize.y));
+
+	for (size_t outerIndex = 0; outerIndex < m_gridSize.x; ++outerIndex)
+	{
+		m_tilePositions.push_back(std::vector<sf::Vector2f*>());
+
+		for (size_t innerIndex = 0; innerIndex < m_gridSize.y; ++innerIndex)
+		{
+			m_tilePositions[outerIndex].push_back(new sf::Vector2f(startPosition.x * outerIndex + m_tile->getSize().x / 2.0f + m_tile->getOutlineThickness(),
+				startPosition.y * innerIndex + m_tile->getSize().y / 2.0f + 80.0f));
+		}
+	}
+}
+
+kp::PlayingField::PlayingField(sf::RenderWindow* window)
 	: m_window(window)
 {
-	m_borders.setSize(sf::Vector2f(float(m_window.getSize().x - 40), float(m_window.getSize().y - 80)));
-	m_borders.setFillColor(sf::Color(32, 32, 32, 255));
-	m_borders.setOutlineThickness(2);
-	m_borders.setOutlineColor(sf::Color(255, 0, 0, 255));
-	m_borders.setOrigin(sf::Vector2f(m_borders.getSize().x / 2, m_borders.getSize().y / 2));
-	m_borders.setPosition(sf::Vector2f(float(m_window.getSize().x / 2), float(m_window.getSize().y / 2) + 20));
+	initGridSize();
+	initTile();
+	initTilePositions();
 }
 
-void PlayingField::init()
+void kp::PlayingField::setGridSize(sf::Vector2u gridSize)
 {
-	std::ifstream ifsInit("config/playing_field.ini");
+	m_gridSize = gridSize;
+}
 
-	if (ifsInit.is_open())
+void kp::PlayingField::setTilePositions(kp::tilePositions_t tilePositions)
+{
+	m_tilePositions = tilePositions;
+}
+
+sf::Vector2u kp::PlayingField::getGridSize() const
+{
+	return m_gridSize;
+}
+
+kp::tilePositions_t kp::PlayingField::getTilePositions() const
+{
+	return m_tilePositions;
+}
+
+sf::Vector2f kp::PlayingField::getTileSize() const
+{
+	return m_tile->getSize();
+}
+
+void kp::PlayingField::update(float dT)
+{
+	dT;
+}
+
+void kp::PlayingField::render()
+{
+	for (size_t outerIndex = 0; outerIndex < m_tilePositions.size(); ++outerIndex)
 	{
-		std::string functionOfTheString;
-
-		int r, g, b, a;
-
-		ifsInit >> functionOfTheString >> r >> g >> b >> a;
-		std::cout << functionOfTheString
-			<< " r-" << r
-			<< " g-" << g
-			<< " b-" << b
-			<< " a-" << a << "\n";
-
-		m_borders.setFillColor(sf::Color(sf::Uint8(r), sf::Uint8(g), sf::Uint8(b), sf::Uint8(a)));
-
-		ifsInit >> functionOfTheString >> r >> g >> b >> a;
-		std::cout << functionOfTheString
-			<< " r-" << r
-			<< " g-" << g
-			<< " b-" << b
-			<< " a-" << a << "\n";
-
-		m_borders.setOutlineColor(sf::Color(sf::Uint8(r), sf::Uint8(g), sf::Uint8(b), sf::Uint8(a)));
+		for (size_t innerIndex = 0; innerIndex < m_tilePositions[outerIndex].size(); ++innerIndex)
+		{
+			m_tile->setPosition(*m_tilePositions[outerIndex][innerIndex]);
+			m_window->draw(*m_tile);
+		}
 	}
-	else
+}
+
+kp::PlayingField::~PlayingField()
+{
+	delete m_tile;
+
+	for (size_t outerIndex = 0; outerIndex < m_tilePositions.size(); ++outerIndex)
 	{
-		std::cout << "File \"config/playing_field.ini\" is not found!" << "\n";
+		for (size_t innerIndex = 0; innerIndex < m_tilePositions[outerIndex].size(); ++innerIndex)
+		{
+			delete m_tilePositions[outerIndex][innerIndex];
+		}
 	}
-
-	ifsInit.close();
-
-	std::cout << "\n";
-}
-
-sf::Vector2f PlayingField::getSize() const
-{
-	return m_borders.getSize();
-}
-
-sf::Vector2f PlayingField::getPosition() const
-{
-	return m_borders.getPosition();
-}
-
-void PlayingField::render()
-{
-	m_window.draw(m_borders);
-}
-
-void PlayingField::update()
-{
-	render();
 }

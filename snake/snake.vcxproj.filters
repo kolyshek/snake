@@ -1,45 +1,78 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Исходные файлы">
+    <Filter Include="source_files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Файлы заголовков">
+    <Filter Include="source_files\on_playing_field">
+      <UniqueIdentifier>{2c8962b3-6c7e-428b-a8f8-8bb7b79d59e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header_files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Файлы ресурсов">
+    <Filter Include="header_files\interfaces">
+      <UniqueIdentifier>{004043d7-8dca-48ae-8be5-9c90fb931649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header_files\on_playing_field">
+      <UniqueIdentifier>{7f74068d-7bfc-4168-ad0e-207669c3993c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources_files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="source_files\artificial_intelligence">
+      <UniqueIdentifier>{f0a88d17-572e-4cb2-b549-1a7720eb0a0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header_files\artificial_intelligence">
+      <UniqueIdentifier>{c81c3f40-8ba7-4788-8f3c-771acf249b19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="libraries.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="libraries.hpp">
+      <Filter>header_files</Filter>
     </ClInclude>
-    <ClInclude Include="Food.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="PlayingField.hpp">
+      <Filter>header_files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayingField.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="logging.hpp">
+      <Filter>header_files</Filter>
     </ClInclude>
-    <ClInclude Include="Snake.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="IBase.hpp">
+      <Filter>header_files\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IGridInfo.hpp">
+      <Filter>header_files\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ITileInfo.hpp">
+      <Filter>header_files\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Food.hpp">
+      <Filter>header_files\on_playing_field</Filter>
+    </ClInclude>
+    <ClInclude Include="Snake.hpp">
+      <Filter>header_files\on_playing_field</Filter>
+    </ClInclude>
+    <ClInclude Include="SnakeAI.hpp">
+      <Filter>header_files\artificial_intelligence</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Food.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>source_files</Filter>
     </ClCompile>
     <ClCompile Include="PlayingField.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="Food.cpp">
+      <Filter>source_files\on_playing_field</Filter>
     </ClCompile>
     <ClCompile Include="Snake.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>source_files\on_playing_field</Filter>
+    </ClCompile>
+    <ClCompile Include="SnakeAI.cpp">
+      <Filter>source_files\artificial_intelligence</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
