@@ -257,6 +257,10 @@ bool kp::Snake::isCollideWithMyself()
 	{
 		if (m_tileIndex == *m_BodyPartsIndex[index])
 		{
+			KP_LOG("Collide on index: "
+				<< std::to_string(m_tileIndex.x) + "/" + std::to_string(m_tileIndex.y) << " | "
+				<< std::to_string(m_BodyPartsIndex[index]->x) + "/" + std::to_string(m_BodyPartsIndex[index]->y));
+
 			return true;
 		}
 	}
@@ -279,6 +283,8 @@ void kp::Snake::restart()
 		delete m_BodyPartsIndex[index];
 	}
 
+	m_BodyPartsIndex.resize(1);
+
 	chooseRandomIndex();
 }
 
@@ -286,8 +292,12 @@ void kp::Snake::render()
 {
 	for (size_t index = 1; index < m_BodyPartsIndex.size(); ++index)
 	{
-		m_bodyPart->setPosition(*m_tilePositions[m_BodyPartsIndex[index]->x][m_BodyPartsIndex[index]->y]);
-		m_window->draw(*m_bodyPart);
+		if (m_BodyPartsIndex[index]->x >= 0 && m_BodyPartsIndex[index]->y >= 0 &&
+			m_BodyPartsIndex[index]->x < m_gridSize.x && m_BodyPartsIndex[index]->y < m_gridSize.y)
+		{
+			m_bodyPart->setPosition(*m_tilePositions[m_BodyPartsIndex[index]->x][m_BodyPartsIndex[index]->y]);
+			m_window->draw(*m_bodyPart);
+		}
 	}
 
 	if (m_tileIndex.x >= 0 && m_tileIndex.y >= 0 && m_tileIndex.x < m_gridSize.x && m_tileIndex.y < m_gridSize.y)
@@ -305,8 +315,8 @@ void kp::Snake::update(float dT)
 	m_delay -= m_dT;
 
 	chooseDirection();
-	moveHead();
 	moveBodyParts();
+	moveHead();
 
 	if (m_delay <= 0.0f)
 	{
