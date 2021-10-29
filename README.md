@@ -1,5 +1,5 @@
-## snake
+# snake
 
-# Dependencies
+## Dependencies
 
 - SFML 2.5.1
